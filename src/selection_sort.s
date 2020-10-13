@@ -1,10 +1,7 @@
 	.file	"selection_sort.c"
 	.text
 	.globl	selection_sort
-	.def	selection_sort;	.scl	2;	.type	32;	.endef
-	.seh_proc	selection_sort
 selection_sort:
-	.seh_endprologue
 	movl	$1, %eax
 .L2:
 	leal	-1(%rax), %r8d
@@ -29,5 +26,4 @@ selection_sort:
 	jmp	.L2
 .L8:
 	ret
-	.seh_endproc
 	.ident	"GCC: (x86_64-posix-seh-rev0, Built by MinGW-W64 project) 8.1.0"
