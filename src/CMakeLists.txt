@@ -1,7 +1,5 @@
-cmake_minimum_required(VERSION 3.17)
+project(main C ASM)
 
-project(Task_2 C ASM)
+set(CMAKE_C_STANDARD 99)
 
-set(CMAKE_C_STANDARD 11)
-
-add_executable(Task_2 main.c selection_sort.s)
+add_executable(main main.c selection_sort.s)
