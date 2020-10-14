@@ -11,12 +11,12 @@
 
 extern int selection_sort(long long *, int);
 
-void parsing_and_checking_parameters(const int *argc, char **argv, long long *from, long long *to) {
+int parsing_and_checking_parameters(const int *argc, char **argv, long long *from, long long *to) {
     bool first_parameter_is_entered = false, second_parameter_is_entered = false;
     if (*argc < MIN_NUMBER_OF_PARAMETERS)
-        exit(-1);
+        return -1;
     if (*argc > MAX_NUMBER_OF_PARAMETERS)
-        exit(-2);
+        return -2;
 
     const struct option long_options[] = {
             {"from", optional_argument, NULL, 'f'},
@@ -30,25 +30,26 @@ void parsing_and_checking_parameters(const int *argc, char **argv, long long *fr
         switch (result_of_reading) {
             case 'f':
                 if (first_parameter_is_entered)
-                    exit(-3);
+                    return -3;
                 *from = strtoll((optarg ? optarg : "0"), NULL, DECIMAL_NOTATION);
                 first_parameter_is_entered = true;
                 break;
             case 't':
                 if (second_parameter_is_entered)
-                    exit(-3);
+                    return -3;
                 *to = strtoll((optarg ? optarg : "0"), NULL, DECIMAL_NOTATION);
                 second_parameter_is_entered = true;
                 break;
             case '?':
                 break;
             default:
-                exit(-4);
+                return -4;
         }
         result_of_reading = getopt_long_only(*argc, argv, "", long_options, &option_index);
     }
     if (!first_parameter_is_entered && !second_parameter_is_entered)
-        exit(-4);
+        return -4;
+    return 1;
 }
 
 void parsing_the_input_array(long long *input_array, int *input_cardinality) {
@@ -61,8 +62,9 @@ void parsing_the_input_array(long long *input_array, int *input_cardinality) {
 
 int main(int argc, char **argv) {
     long long from = LLONG_MIN, to = LLONG_MAX;
-    parsing_and_checking_parameters(&argc, argv, &from, &to);
-
+    int return_value = parsing_and_checking_parameters(&argc, argv, &from, &to);
+    if(return_value != 1)
+        return return_value;
     long long *input_array = (long long *) malloc(sizeof(long long) * MAX_NUMBER_OF_ELEMENTS);
     int input_cardinality = 0;
     parsing_the_input_array(input_array, &input_cardinality);
