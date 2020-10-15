@@ -9,8 +9,6 @@
 #define MIN_NUMBER_OF_PARAMETERS 2
 #define MAX_NUMBER_OF_PARAMETERS 3
 
-extern int selection_sort(long long *, int);
-
 int parsing_and_checking_parameters(const int *argc, char **argv, long long *from, long long *to) {
     bool first_parameter_is_entered = false, second_parameter_is_entered = false;
     if (*argc < MIN_NUMBER_OF_PARAMETERS)
