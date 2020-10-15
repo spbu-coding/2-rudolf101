@@ -99,5 +99,7 @@ int main(int argc, char **argv) {
             ++counter;
         }
     }
+    free(input_array);
+    free(sorted_array);
     return number_of_permutations;
 }
