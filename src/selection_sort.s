@@ -1,34 +1,79 @@
 	.file	"selection_sort.c"
 	.text
+	.p2align 4
 	.globl	selection_sort
 	.type	selection_sort, @function
 selection_sort:
 .LFB0:
 	.cfi_startproc
 	endbr64
-	movl	$1, %eax
-.L2:
-	leal	-1(%rax), %edx
-	cmpl	%eax, %esi
-	jle	.L8
-	movq	%rax, %rcx
+	cmpl	$1, %esi
+	jle	.L11
+	pushq	%r12
+	.cfi_def_cfa_offset 16
+	.cfi_offset 12, -16
+	leaq	8(%rdi), %r11
+	leal	-2(%rsi), %r12d
+	pushq	%rbp
+	.cfi_def_cfa_offset 24
+	.cfi_offset 6, -24
+	pushq	%rbx
+	.cfi_def_cfa_offset 32
+	.cfi_offset 3, -32
+	movq	%rdi, %rbx
+	xorl	%edi, %edi
+	.p2align 4,,10
+	.p2align 3
+.L5:
+	movq	-8(%r11), %rbp
+	leal	1(%rdi), %edx
+	movl	%edi, %r10d
+	movq	%r11, %rax
+	movq	%rbp, %r8
+	jmp	.L4
+	.p2align 4,,10
+	.p2align 3
+.L16:
+	movslq	%r10d, %rcx
+	addl	$1, %edx
+	addq	$8, %rax
+	leaq	(%rbx,%rcx,8), %r9
+	cmpl	%edx, %esi
+	jle	.L15
 .L4:
-	movslq	%edx, %r8
-	movq	(%rdi,%r8,8), %r9
-	cmpq	%r9, (%rdi,%rcx,8)
-	cmovl	%ecx, %edx
-	incq	%rcx
-	cmpl	%ecx, %esi
+	movq	(%rax), %rcx
+	movq	%rax, %r9
+	cmpq	%rcx, %r8
+	jle	.L16
+	movl	%edx, %r10d
+	addl	$1, %edx
+	movq	%rcx, %r8
+	addq	$8, %rax
+	cmpl	%edx, %esi
 	jg	.L4
-	movslq	%edx, %rdx
-	movq	-8(%rdi,%rax,8), %rcx
-	leaq	(%rdi,%rdx,8), %rdx
-	movq	(%rdx), %r8
-	movq	%r8, -8(%rdi,%rax,8)
-	incq	%rax
-	movq	%rcx, (%rdx)
-	jmp	.L2
-.L8:
+.L15:
+	movq	%r8, -8(%r11)
+	leaq	1(%rdi), %rax
+	addq	$8, %r11
+	movq	%rbp, (%r9)
+	cmpq	%r12, %rdi
+	je	.L17
+	movq	%rax, %rdi
+	jmp	.L5
+	.p2align 4,,10
+	.p2align 3
+.L17:
+	popq	%rbx
+	.cfi_def_cfa_offset 24
+	popq	%rbp
+	.cfi_def_cfa_offset 16
+	popq	%r12
+	.cfi_def_cfa_offset 8
+	ret
+.L11:
+	.cfi_restore 3
+	.cfi_restore 6
+	.cfi_restore 12
 	ret
 	.cfi_endproc
 .LFE0:
