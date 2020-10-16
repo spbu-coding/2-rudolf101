@@ -49,7 +49,7 @@ int parsing_and_checking_parameters(const int *argc, char **argv, long long *fro
     }
     if (!first_parameter_is_entered && !second_parameter_is_entered)
         return -4;
-    return 1;
+    return 0;
 }
 
 void parsing_the_input_array(long long *input_array, int *input_cardinality) {
@@ -63,8 +63,9 @@ void parsing_the_input_array(long long *input_array, int *input_cardinality) {
 int main(int argc, char **argv) {
     long long from = LLONG_MIN, to = LLONG_MAX;
     int return_value = parsing_and_checking_parameters(&argc, argv, &from, &to);
-    if(return_value != 1)
+    if(return_value)
         return return_value;
+
     long long *input_array = (long long *) malloc(sizeof(long long) * MAX_NUMBER_OF_ELEMENTS);
     int input_cardinality = 0;
     parsing_the_input_array(input_array, &input_cardinality);
@@ -73,9 +74,9 @@ int main(int argc, char **argv) {
     int sorted_cardinality = 0;
     for (int i = 0; i < input_cardinality; ++i) {
         if (input_array[i] <= from)
-            fprintf(stdout, "%lld ", input_array[i]);
+            fprintf(stdout, "%lld", input_array[i]);
         if (input_array[i] >= to)
-            fprintf(stderr, "%lld ", input_array[i]);
+            fprintf(stderr, "%lld", input_array[i]);
         if (input_array[i] > from && input_array[i] < to)
             ++sorted_cardinality;
     }
