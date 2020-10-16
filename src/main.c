@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
     long long *input_array = (long long *) malloc(sizeof(long long) * MAX_NUMBER_OF_ELEMENTS);
     int input_cardinality = 0;
     parsing_the_input_array(input_array, &input_cardinality);
-    input_array = (long long *) realloc(input_array, sizeof(long long) * input_cardinality);
+    //input_array = (long long *) realloc(input_array, sizeof(long long) * input_cardinality);
 
     int sorted_cardinality = 0;
     for (int i = 0; i < input_cardinality; ++i) {
