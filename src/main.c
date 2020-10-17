@@ -57,7 +57,8 @@ void parsing_the_input_array(long long *input_array, int *input_cardinality) {
     char separator = ' ';
     while (separator == ' ') {
         if(scanf("%lld%c", &input_array[*input_cardinality], &separator) < 2)
-            error("Cannot read the [%d] element of input array", *input_cardinality);
+            vprintf("%s", "Cannot read the [%d] element of input array");
+            //error("Cannot read the [%d] element of input array", *input_cardinality);
         *input_cardinality += 1;
     }
 }
@@ -69,28 +70,29 @@ int main(int argc, char **argv) {
         return return_value;
     long long *input_array = (long long *) malloc(sizeof(long long) * MAX_NUMBER_OF_ELEMENTS);
     if(input_array == NULL)
-        error("Cannot allocate memory for input_array");
+        vprintf("%s", "Cannot allocate memory for input_array");
+        //error("Cannot allocate memory for input_array");
 
     int input_cardinality = 0;
     parsing_the_input_array(input_array, &input_cardinality);
     input_array = (long long *) realloc(input_array, sizeof(long long) * input_cardinality);
     if(input_array == NULL)
-        error("Cannot reallocate memory for input_array");
+        vprintf("%s", "Cannot reallocate memory for input_array");
 
     int sorted_cardinality = 0;
     for (int i = 0; i < input_cardinality; ++i) {
         if (input_array[i] <= from)
             if(fprintf(stdout, "%lld ", input_array[i]) < 0)
-                error("Cannot write the %d element to stdout", i);
+                vprintf("%s", "Cannot write the %d element to stdout");
         if (input_array[i] >= to)
             if(fprintf(stderr, "%lld ", input_array[i]) < 0)
-                error("Cannot write the %d element to stderr", i);
+                vprintf("%s", "Cannot write the %d element to stderr");
         if (input_array[i] > from && input_array[i] < to)
             ++sorted_cardinality;
     }
     long long *sorted_array = (long long *) malloc(sizeof(long long) * sorted_cardinality);
     if(sorted_array == NULL)
-        error("Cannot allocate memory for sorted_array");
+        vprintf("%s", "Cannot allocate memory for sorted_array");
 
     int counter = 0;
     for (int i = 0; i < input_cardinality; ++i) {
