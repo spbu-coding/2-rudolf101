@@ -102,5 +102,5 @@ int main(int argc, char **argv) {
     }
     free(input_array);
     free(sorted_array);
-    return 3;
+    return number_of_permutations;
 }
