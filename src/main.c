@@ -26,7 +26,7 @@ int parsing_and_checking_parameters(const int *argc, char **argv, long long *fro
     };
     int option_index;
     opterr = 0; // Disabling getopt() error messages
-    int result_of_reading = getopt_long_only(*argc, argv, "", long_options, &option_index);
+    int result_of_reading = getopt_long_only(*argc, argv, "f:t:", long_options, &option_index);
     while (result_of_reading != -1) {
         switch (result_of_reading) {
             case 'f':
@@ -46,7 +46,7 @@ int parsing_and_checking_parameters(const int *argc, char **argv, long long *fro
             default:
                 return -4;
         }
-        result_of_reading = getopt_long_only(*argc, argv, "", long_options, &option_index);
+        result_of_reading = getopt_long_only(*argc, argv, "f:t:", long_options, &option_index);
     }
     if (!first_parameter_is_entered && !second_parameter_is_entered)
         return -4;
@@ -57,42 +57,40 @@ void parsing_the_input_array(long long *input_array, int *input_cardinality) {
     char separator = ' ';
     while (separator == ' ') {
         if(scanf("%lld%c", &input_array[*input_cardinality], &separator) < 2)
-            vprintf("%s", "Cannot read the [%d] element of input array");
-            //error("Cannot read the [%d] element of input array", *input_cardinality);
+            error("Cannot read the [%d] element of input array", *input_cardinality);
         *input_cardinality += 1;
     }
 }
 
 int main(int argc, char **argv) {
-    long long from = LLONG_MIN, to = LLONG_MAX;
+    long long from = LLONG_MIN, to = 9;
     int return_value = parsing_and_checking_parameters(&argc, argv, &from, &to);
     if(return_value)
         return return_value;
     long long *input_array = (long long *) malloc(sizeof(long long) * MAX_NUMBER_OF_ELEMENTS);
     if(input_array == NULL)
-        vprintf("%s", "Cannot allocate memory for input_array");
-        //error("Cannot allocate memory for input_array");
+        error("Cannot allocate memory for input_array");
 
     int input_cardinality = 0;
     parsing_the_input_array(input_array, &input_cardinality);
     input_array = (long long *) realloc(input_array, sizeof(long long) * input_cardinality);
     if(input_array == NULL)
-        vprintf("%s", "Cannot reallocate memory for input_array");
+        error("Cannot reallocate memory for input_array");
 
     int sorted_cardinality = 0;
     for (int i = 0; i < input_cardinality; ++i) {
         if (input_array[i] <= from)
             if(fprintf(stdout, "%lld ", input_array[i]) < 0)
-                vprintf("%s", "Cannot write the %d element to stdout");
+                error("Cannot write the %d element to stdout", i);
         if (input_array[i] >= to)
             if(fprintf(stderr, "%lld ", input_array[i]) < 0)
-                vprintf("%s", "Cannot write the %d element to stderr");
+                error("Cannot write the %d element to stderr", i);
         if (input_array[i] > from && input_array[i] < to)
             ++sorted_cardinality;
     }
     long long *sorted_array = (long long *) malloc(sizeof(long long) * sorted_cardinality);
     if(sorted_array == NULL)
-        vprintf("%s", "Cannot allocate memory for sorted_array");
+        error("Cannot allocate memory for sorted_array");
 
     int counter = 0;
     for (int i = 0; i < input_cardinality; ++i) {
@@ -103,15 +101,15 @@ int main(int argc, char **argv) {
     }
 
     selection_sort(sorted_array, sorted_cardinality);
-    int number_of_permutations = 3;
-//    counter = 0;
-//    for (int i = 0; i < input_cardinality; ++i) {
-//        if (input_array[i] > from && input_array[i] < to) {
-//            if (input_array[i] != sorted_array[counter])
-//                ++number_of_permutations;
-//            ++counter;
-//        }
-//    }
+    int number_of_permutations = 0;
+    counter = 0;
+    for (int i = 0; i < input_cardinality; ++i) {
+        if (input_array[i] > from && input_array[i] < to) {
+            if (input_array[i] != sorted_array[counter])
+                ++number_of_permutations;
+            ++counter;
+        }
+    }
     free(input_array);
     free(sorted_array);
     return number_of_permutations;
