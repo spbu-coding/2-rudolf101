@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
     long long *input_array = (long long *) malloc(sizeof(long long) * MAX_NUMBER_OF_ELEMENTS);
     int input_cardinality = 0;
     parsing_the_input_array(input_array, &input_cardinality);
-    //input_array = (long long *) realloc(input_array, sizeof(long long) * input_cardinality);
+    input_array = (long long *) realloc(input_array, sizeof(long long) * input_cardinality);
 
     int sorted_cardinality = 0;
     for (int i = 0; i < input_cardinality; ++i) {
@@ -90,16 +90,15 @@ int main(int argc, char **argv) {
         }
     }
 
-    selection_sort(sorted_array, sorted_cardinality);
-    int number_of_permutations = 0;
-    counter = 0;
-    for (int i = 0; i < input_cardinality; ++i) {
-        if (input_array[i] > from && input_array[i] < to) {
-            if (input_array[i] != sorted_array[counter])
-                ++number_of_permutations;
-            ++counter;
-        }
-    }
+    int number_of_permutations = selection_sort(sorted_array, sorted_cardinality);
+//    counter = 0;
+//    for (int i = 0; i < input_cardinality; ++i) {
+//        if (input_array[i] > from && input_array[i] < to) {
+//            if (input_array[i] != sorted_array[counter])
+//                ++number_of_permutations;
+//            ++counter;
+//        }
+//    }
     free(input_array);
     free(sorted_array);
     return number_of_permutations;
