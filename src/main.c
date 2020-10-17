@@ -90,16 +90,17 @@ int main(int argc, char **argv) {
         }
     }
 
-    int number_of_permutations = selection_sort(sorted_array, sorted_cardinality);
-//    counter = 0;
-//    for (int i = 0; i < input_cardinality; ++i) {
-//        if (input_array[i] > from && input_array[i] < to) {
-//            if (input_array[i] != sorted_array[counter])
-//                ++number_of_permutations;
-//            ++counter;
-//        }
-//    }
+    selection_sort(sorted_array, sorted_cardinality);
+    int number_of_permutations = 0;
+    counter = 0;
+    for (int i = 0; i < input_cardinality; ++i) {
+        if (input_array[i] > from && input_array[i] < to) {
+            if (input_array[i] != sorted_array[counter])
+                ++number_of_permutations;
+            ++counter;
+        }
+    }
     free(input_array);
     free(sorted_array);
-    return number_of_permutations;
+    return 3;
 }
