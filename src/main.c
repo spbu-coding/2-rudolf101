@@ -74,9 +74,9 @@ int main(int argc, char **argv) {
     int sorted_cardinality = 0;
     for (int i = 0; i < input_cardinality; ++i) {
         if (input_array[i] <= from)
-            fprintf(stdout, "%lld", input_array[i]);
+            fprintf(stdout, "%lld ", input_array[i]);
         if (input_array[i] >= to)
-            fprintf(stderr, "%lld", input_array[i]);
+            fprintf(stderr, "%lld ", input_array[i]);
         if (input_array[i] > from && input_array[i] < to)
             ++sorted_cardinality;
     }
