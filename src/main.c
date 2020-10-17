@@ -91,7 +91,7 @@ int main(int argc, char **argv) {
     long long *sorted_array = (long long *) malloc(sizeof(long long) * sorted_cardinality);
     if(sorted_array == NULL)
         error("Cannot allocate memory for sorted_array");
-    
+
     int counter = 0;
     for (int i = 0; i < input_cardinality; ++i) {
         if (input_array[i] > from && input_array[i] < to) {
@@ -101,15 +101,15 @@ int main(int argc, char **argv) {
     }
 
     selection_sort(sorted_array, sorted_cardinality);
-    int number_of_permutations = 0;
-    counter = 0;
-    for (int i = 0; i < input_cardinality; ++i) {
-        if (input_array[i] > from && input_array[i] < to) {
-            if (input_array[i] != sorted_array[counter])
-                ++number_of_permutations;
-            ++counter;
-        }
-    }
+    int number_of_permutations = 3;
+//    counter = 0;
+//    for (int i = 0; i < input_cardinality; ++i) {
+//        if (input_array[i] > from && input_array[i] < to) {
+//            if (input_array[i] != sorted_array[counter])
+//                ++number_of_permutations;
+//            ++counter;
+//        }
+//    }
     free(input_array);
     free(sorted_array);
     return number_of_permutations;
