@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#define error(...) (fprintf(stderr, __VA_ARGS__))
 #define MAX_NUMBER_OF_ELEMENTS 100
 #define DECIMAL_NOTATION 10
 #define MIN_NUMBER_OF_PARAMETERS 2
@@ -55,7 +56,8 @@ int parsing_and_checking_parameters(const int *argc, char **argv, long long *fro
 void parsing_the_input_array(long long *input_array, int *input_cardinality) {
     char separator = ' ';
     while (separator == ' ') {
-        scanf("%lld%c", &input_array[*input_cardinality], &separator);
+        if(scanf("%lld%c", &input_array[*input_cardinality], &separator) < 2)
+            error("Cannot read the [%d] element of input array", *input_cardinality);
         *input_cardinality += 1;
     }
 }
@@ -65,23 +67,31 @@ int main(int argc, char **argv) {
     int return_value = parsing_and_checking_parameters(&argc, argv, &from, &to);
     if(return_value)
         return return_value;
-
     long long *input_array = (long long *) malloc(sizeof(long long) * MAX_NUMBER_OF_ELEMENTS);
+    if(input_array == NULL)
+        error("Cannot allocate memory for input_array");
+
     int input_cardinality = 0;
     parsing_the_input_array(input_array, &input_cardinality);
     input_array = (long long *) realloc(input_array, sizeof(long long) * input_cardinality);
+    if(input_array == NULL)
+        error("Cannot reallocate memory for input_array");
 
     int sorted_cardinality = 0;
     for (int i = 0; i < input_cardinality; ++i) {
         if (input_array[i] <= from)
-            fprintf(stdout, "%lld ", input_array[i]);
+            if(fprintf(stdout, "%lld ", input_array[i]) < 0)
+                error("Cannot write the %d element to stdout", i);
         if (input_array[i] >= to)
-            fprintf(stderr, "%lld ", input_array[i]);
+            if(fprintf(stderr, "%lld ", input_array[i]) < 0)
+                error("Cannot write the %d element to stderr", i);
         if (input_array[i] > from && input_array[i] < to)
             ++sorted_cardinality;
     }
     long long *sorted_array = (long long *) malloc(sizeof(long long) * sorted_cardinality);
-
+    if(sorted_array == NULL)
+        error("Cannot allocate memory for sorted_array");
+    
     int counter = 0;
     for (int i = 0; i < input_cardinality; ++i) {
         if (input_array[i] > from && input_array[i] < to) {
