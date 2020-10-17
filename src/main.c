@@ -26,6 +26,7 @@ int parsing_and_checking_parameters(const int *argc, char **argv, long long *fro
     };
     int option_index = 0;
     opterr = 0; // Disabling getopt() error messages
+    optind = 1;
     int result_of_reading;
     while ((result_of_reading = getopt_long(*argc, argv, "", long_options, &option_index)) != -1) {
         switch (result_of_reading) {
