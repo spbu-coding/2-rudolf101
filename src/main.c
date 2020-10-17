@@ -24,10 +24,10 @@ int parsing_and_checking_parameters(const int *argc, char **argv, long long *fro
             {"to",   optional_argument, NULL, 't'},
             {NULL,   0,                 NULL, 0}
     };
-    int option_index;
+    int option_index = 0;
     opterr = 0; // Disabling getopt() error messages
-    int result_of_reading = getopt_long_only(*argc, argv, "f:t:", long_options, &option_index);
-    while (result_of_reading != -1) {
+    int result_of_reading;
+    while ((result_of_reading = getopt_long(*argc, argv, "", long_options, &option_index)) != -1) {
         switch (result_of_reading) {
             case 'f':
                 if (first_parameter_is_entered)
@@ -46,7 +46,6 @@ int parsing_and_checking_parameters(const int *argc, char **argv, long long *fro
             default:
                 return -4;
         }
-        result_of_reading = getopt_long_only(*argc, argv, "f:t:", long_options, &option_index);
     }
     if (!first_parameter_is_entered && !second_parameter_is_entered)
         return -4;
@@ -63,7 +62,7 @@ void parsing_the_input_array(long long *input_array, int *input_cardinality) {
 }
 
 int main(int argc, char **argv) {
-    long long from = LLONG_MIN, to = 9;
+    long long from = LLONG_MIN, to = LLONG_MAX;
     int return_value = parsing_and_checking_parameters(&argc, argv, &from, &to);
     if(return_value)
         return return_value;
